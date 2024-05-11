@@ -1,0 +1,58 @@
+﻿@page "/servers"
+@rendermode InteractiveServer
+
+<h3>Servers</h3>
+<br/>
+<br/>
+<div class="container-fluid text-center">
+	<div class="row w-50">
+		@foreach (var myCity in gvListCities)
+		{
+			<div class="col">
+				<div class="card">
+					<img src="@($"/images/{myCity}.png")" class="card-img-top" alt="...">
+					<div class="card-body">
+						<button type="button" class="btn btn-primary">@myCity</button>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</div>
+<br/>
+<br/>
+<p>
+	<ServerComponent @rendermode="InteractiveServer"></ServerComponent>
+</p>
+<ul>
+	@foreach (var myServer in gvListServers)
+	{
+		<li>
+			@myServer.Name in @myServer.City is
+			<span style="color:@((myServer.IsOnline ? "green" : "red"))">
+				@(myServer.IsOnline ? "online" : "offline")
+			</span>
+			&nbsp;
+			<a href="/servers/@myServer.ServerId" class="btn btn-link">修改畫面</a>
+			&nbsp;
+		 	<EditForm Enhance=true Model="myServer" FormName="@($"form-server-{myServer.ServerId}")" OnValidSubmit="@(()=> {DeleteServer(myServer.ServerId);})">
+				<button type="submit" class="btn btn-primary">刪除</button>
+			</EditForm>
+		</li>
+	}
+</ul>
+<p>
+	<a href="/servers/add" class="btn btn-primary">新增畫面</a>
+</p>
+@code {
+	private List<Server> gvListServers = ServersRepository.GetServers();
+	private static List<String> gvListCities = CitiesRepository.GetCities();
+	private void DeleteServer(int myId)
+	{
+		if (myId > 0)
+		{
+			ServersRepository.DeleteServer(myId);
+		}
+	}
+
+}

@@ -1,0 +1,52 @@
+﻿@if (gvServer != null) 
+{
+@* 	<EditForm Enhance="true" Model="gvServer" FormName="myServerComponentForm" OnSubmit="ChangeServerStatus">
+		<InputNumber @bind-Value="gvServer.ServerId" hidden></InputNumber>
+		<InputText @bind-Value="gvServer.Name" hidden></InputText>
+		<InputText @bind-Value="gvServer.City" hidden></InputText>
+		<InputCheckbox @bind-Value="gvServer.IsOnline" hidden></InputCheckbox>
+
+		<div data-name="@gvServer.Name"
+			 data-status="Server is @(gvServer.IsOnline?"online":"offline")"
+			 style="@($"color:{(gvServer.IsOnline?"green":"red")}")">
+			@gvServer.Name is in @gvServer.City that is @(gvServer.IsOnline ? "online" : "offline")
+			&nbsp;
+			<button tpye="submit" class="btn btn-primary">Turn On/Off</button>
+		</div>
+	</EditForm> *@
+	<div data-name="@gvServer.Name"
+		 data-status="Server is @(gvServer.IsOnline?"online":"offline")"
+		 style="@($"color:{(gvServer.IsOnline?"green":"red")}")">
+		@gvServer.Name is in @gvServer.City that is @(gvServer.IsOnline ? "online" : "offline")
+		&nbsp;
+		<button tpye="button" class="btn btn-primary" @onclick="ChangeStatus">Turn On/Off</button>
+	</div>
+}
+
+@code {
+	// [SupplyParameterFromForm]
+	// private Server? gvServer { get; set; }
+
+	// protected override void OnParametersSet()
+	// {
+	// 	gvServer ??= new Server { Name = "紀坤宏", City = "台北" };
+	// }
+
+	// private void ChangeServerStatus()
+	// {
+	// 	if (gvServer != null)
+	// 	{
+	// 		gvServer.IsOnline = !gvServer.IsOnline;
+	// 	}
+	// }
+	private Server? gvServer { get; set; } = new Server { Name = "紀坤宏", City = "台北" };
+
+	private void ChangeStatus()
+	{
+		if (gvServer != null)
+		{
+			gvServer.IsOnline = !gvServer.IsOnline;
+		}
+	}
+
+}
